@@ -5,24 +5,32 @@ Description: >
   An S3 bucket for dog pictures
   An S3 bucket for other animals
   And permissions appropriate for Sally.
+# Ask user for parameter - being the new users password
 Parameters:
   sallypassword:
     NoEcho: true
     Description: IAM User Sallys Password
     Type: String
+# Logical resources we want to create
 Resources:
+  # Name of s3 bucket we want to create
   catpics:
     Type:  AWS::S3::Bucket
   animalpics:
     Type:  AWS::S3::Bucket
+  # name if IAM user
   sally:
     Type: AWS::IAM::User
     Properties:
+      # Attach managed policy to IAM user referencing ARN
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/IAMUserChangePassword
+      # Set password referencing parameter section above
       LoginProfile:
         Password: !Ref sallypassword
+        # Reset password upon first login
         PasswordResetRequired: "true"
+  # Managed policy
   policy:
     Type: AWS::IAM::ManagedPolicy
     Properties: 
@@ -31,6 +39,7 @@ Resources:
       PolicyDocument: 
         Version: 2012-10-17
         Statement:
+        # Allows access to S3 except catpics bucket
           - Effect: Allow
             Action: 's3:*'
             Resource: '*' 
