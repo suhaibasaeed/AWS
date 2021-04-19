@@ -8,5 +8,5 @@ COPY index.html /var/www/html/
 COPY containerandcat*.jpg /var/www/html/
 # Set application which is being run - apache web serber in our case
 ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-# Expose port 80 of container so we can access web server
+# Expose port 80 of container so we can access web server.
 EXPOSE 80
